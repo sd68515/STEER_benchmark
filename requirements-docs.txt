@@ -1,4 +1,0 @@
-mkdocs<2
-mkdocs-material>=9.7
-pymdown-extensions>=10
-mkdocs-jupyter

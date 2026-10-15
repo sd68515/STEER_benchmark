@@ -958,7 +958,19 @@ class GeneExpressionDataset_adata_velo(Dataset):
 
         # Concatenate unsplice and splice matrices along the columns
         features_matrix = np.concatenate([unsplice_matrix, splice_matrix], axis=1)
-        orig_features_matrix = np.concatenate([orig_unsplice_matrix.toarray(), orig_splice_matrix.toarray()], axis=1)
+        orig_unsplice_values = (
+            orig_unsplice_matrix.toarray()
+            if issparse(orig_unsplice_matrix)
+            else np.asarray(orig_unsplice_matrix)
+        )
+        orig_splice_values = (
+            orig_splice_matrix.toarray()
+            if issparse(orig_splice_matrix)
+            else np.asarray(orig_splice_matrix)
+        )
+        orig_features_matrix = np.concatenate(
+            [orig_unsplice_values, orig_splice_values], axis=1
+        )
 
         # Convert to tensor
         self.features = torch.tensor(features_matrix, dtype=torch.float32)
